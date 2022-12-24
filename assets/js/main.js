@@ -255,3 +255,12 @@
   });
 
 })()
+
+logoutElement = document.querySelector("#logout")
+
+logoutElement.onclick = (()=>{
+  localStorage.clear()
+  
+  window.location.reload()
+  
+});

@@ -1,5 +1,6 @@
+import  {login}  from "./modules.js";
+
 const url = "http://127.0.0.1:8000/api/v2/payments/";
-const urlVerify = "http://127.0.0.1:8000/users/jwt/verify/";
 
 //Authorization
 const auth = localStorage.getItem('pagos.auth') ?? "";
@@ -10,19 +11,16 @@ if (auth !== ""){
 }
 
 //elementDOM
-const paymentItem = document.querySelector("#paymentItem")
-paymentItem.innerHTML = ""
-const usernameElement = document.querySelector("#username")
-usernameElement.textContent = ""
+const paymentItem = document.querySelector("#paymentItem");
+paymentItem.innerHTML = "";
+const usernameElement = document.querySelector("#username");
+usernameElement.textContent = "";
 
 
 main();
 
-
-
-
 async function main() {
-    if (await login()) {
+    if ( await login()) {
         console.log("EMPEZEMOS");
         await getPayments();
         setUsername(usernameElement);
@@ -35,43 +33,9 @@ async function main() {
 }
 
 
-async function login() {
-    const status = await verifyUser();
-
-    if (status == 200) {
-        console.log("PUEDE PASAR");
-        return true
-        
-    } else {
-        console.log("No PUEDE PASAR");
-        window.location.replace("./login.html");
-        return false
-    }
-}
-
-async function verifyUser() {
-    try {
-        const body = {
-            token: token
-        }
-        response = await fetch(urlVerify, {
-            method: "POST",
-            headers: {
-                "Content-type": "application/json",
-            },
-            body: JSON.stringify(body),
-        });
-        return await response.status;
-
-    } catch (error) {
-        console.log(error);
-    }
-
-}
-
 async function getPayments() {
     try {
-        response = await fetch(url, {
+        const response = await fetch(url, {
             method: "GET",
             headers: {
                 "Content-type": "application/json",
@@ -124,5 +88,5 @@ function renderPayment(payment) {
 }
 
 function setUsername(element) {
-    element.textContent = `${user}`
-}
+    element.textContent = `${user}`;
+};
