@@ -1,6 +1,8 @@
 
 const urlVerify = "http://127.0.0.1:8000/users/jwt/verify/";
 const bodyElement = document.querySelector("body")
+const usernameElement = document.querySelector("#username");
+usernameElement.textContent = "";
 //Authorization
 const auth = localStorage.getItem('pagos.auth') ?? "";
 var is_admin = JSON.parse(localStorage.getItem('pagos.auth')).is_admin
@@ -20,6 +22,7 @@ async function main() {
     if ( await login()) {
         console.log("EMPEZEMOS");
         console.log('is_admin',is_admin)
+        setUsername(usernameElement);
         
     } else {
         console.log("No EMPEZEMOS");
@@ -70,3 +73,7 @@ async function verifyUser() {
     }
 
 }
+
+function setUsername(element) {
+    element.textContent = `${user}`;
+};
