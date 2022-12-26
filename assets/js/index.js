@@ -10,15 +10,19 @@ if (auth !== ""){
     var token = JSON.parse(auth).accessToken ?? "";
     var authorization = JSON.stringify(`Bearer ${token}`);
     var user = JSON.parse(auth).email;
+    var userId = JSON.parse(auth).id;
 }
 
 //elementDOM
 const paymentItem = document.querySelector("#paymentItem");
 paymentItem.innerHTML = "";
+const paymentShow = document.querySelector("#firstpayments")
 const usernameElement = document.querySelector("#username");
 usernameElement.textContent = "";
 const expiredElement = document.querySelector("#expiredItem");
 expiredElement.textContent = "";
+const expiredsShow= document.querySelector("#firstexpiredItem");
+const btnShowMore = document.querySelector("#btn-showmore");
 let services = await getService();
 
 main();
@@ -30,20 +34,36 @@ async function main() {
         let is_admin = JSON.parse(localStorage.getItem('pagos.auth')).is_admin ?? false;
         // setElementsAdmin(is_admin);
         console.log(is_admin);
-        let paymentList = await getPayments();
+        let paymentList = await getPayments(userId);
         console.log(paymentList);
+        
         setUsername(usernameElement);
-        let expiredList = await getExpireds(paymentList);
-        console.log(expiredList);
-        expiredList.forEach(async expired =>{
-            console.log("HOLA");
-            let paymentExpired = await getPayment(expired.payment_user);
-            renderPaymentsExpired(paymentExpired,expired);
-        });
-        
-        
-        
 
+        //RENDERIZADO PAGOS EXPIRADOS DEL USUARIO
+        let listExpireds = []
+        for (let i = 0; i < paymentList.length; i++) {
+            const a =await getExpiredByUser(paymentList[i]);
+            listExpireds.push(a)
+        }
+        console.log(listExpireds);
+        const filtered = listExpireds.filter((expired)=>expired.length > 0)
+        if (filtered.length < 3) {
+            btnShowMore.style.display= "none";
+        }
+        filtered.forEach(async (expired,i) =>{
+            let element = expiredsShow
+            if (i<2) {
+                element = expiredsShow
+            }else{
+                element = expiredElement
+            }
+                console.log("EXPIRADO");
+                let paymentExpired = await getPayment(expired[0].payment_user);
+                renderPaymentsExpired(paymentExpired,expired[0],element);
+                console.log(i);
+
+            
+        });
     } else {
         console.log("No EMPEZEMOS");
     }
@@ -67,8 +87,14 @@ async function getPayments(userId = 0) {
         });
         const paymentList = []
         const data = await response.json();
-        data.results.forEach(payment => {
-            renderPayment(payment);
+        data.results.forEach((payment,i) => {
+            let element = expiredsShow
+            if (i<2) {
+                element = expiredsShow
+            }else{
+                element = expiredElement
+            }
+            renderPayment(payment,paymentItem);
             paymentList.push(payment.id)
         });
         return paymentList
@@ -78,8 +104,8 @@ async function getPayments(userId = 0) {
     }
 };
 
-function renderPayment(payment) {
-    paymentItem.innerHTML += `
+function renderPayment(payment,element) {
+    element.innerHTML += `
     <div class="col-xl-12 col-md-12 mb-2">
         <div class="card">
             <div class="card-body">
@@ -112,33 +138,35 @@ function renderPayment(payment) {
 function setUsername(element) {
     element.textContent = `${user}`;
 };
-async function getExpiredByUser(payments) {
+async function getExpiredByUser(payment=1) {
     let url = urlExpired;
-    let expireds = [];
-    payments.forEach(async (payment)=>{
-        url = urlExpired +`?payment_user=${payment}`
-        try {
-            const response = await fetch(url, {
-                method: "GET",
-                headers: {
-                    "Content-type": "application/json",
-                    "Authorization": JSON.parse(authorization),
-                },
-            });
-            const data = await response.json();
-            data.results.forEach(async expired => {
-                console.log(expired);
-                expireds.push(expired) ;      
-            });
-            
-            
-        } catch (error) {
-            console.log(error);
-        }
+    
+    
+    url = urlExpired +`?payment_user=${payment}`
+    try {
+        const response = await fetch(url, {
+            method: "GET",
+            headers: {
+                "Content-type": "application/json",
+                "Authorization": JSON.parse(authorization),
+            },
+        });
+        let expireds = [];
+        const data = await response.json();
+        data.results.forEach(expired => {
+            console.log(expired);
+            if (expired) {
+                expireds.push(expired ) ;   
+            };
+        });
+        console.log(expireds)
+        return expireds
+    } catch (error) {
+        console.log(error);
+    }
         
-    });
-    return expireds
-    console.log(expireds)
+    
+    
     
 };
 
@@ -188,8 +216,8 @@ async function getPayment(id) {
 
 
 
-function renderPaymentsExpired(payment,expired) {
-    expiredElement.innerHTML +=`
+function renderPaymentsExpired(payment,expired,element) {
+    element.innerHTML +=`
     <div class="col-xl-12 col-md-12 mb-2">
         <div class="card" style="background-color: #ff7a6b;">
             <div class="card-body">
