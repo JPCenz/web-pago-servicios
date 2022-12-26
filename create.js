@@ -59,8 +59,6 @@ form.onsubmit = async function(event){
 
 
 
-
-
 const url ="http://127.0.0.1:8000/api/v2/service/";
 const service = document.querySelector(".form-select");
 service.innerHTML = `<option selected disabled>Seleccione un servicio</option>`
@@ -86,4 +84,3 @@ function renderTask(task){
     <option value="${task.id}">${task.name}</option>
     `;
 }
-
