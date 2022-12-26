@@ -23,6 +23,7 @@ async function main() {
         console.log("EMPEZEMOS");
         console.log('is_admin',is_admin)
         setUsername(usernameElement);
+        setElementsAdmin(is_admin);
         
     } else {
         console.log("No EMPEZEMOS");
@@ -77,3 +78,13 @@ async function verifyUser() {
 function setUsername(element) {
     element.textContent = `${user}`;
 };
+
+function setElementsAdmin(is_admin) {
+    let adminElement = document.querySelector(".admin");
+    if ( adminElement &&  !is_admin ) {
+    console.log(is_admin);
+    adminElement.style.display= "none";
+}
+    
+}
+

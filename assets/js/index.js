@@ -32,7 +32,7 @@ async function main() {
         console.log("EMPEZEMOS");
         // const a = JSON.parse(localStorage.getItem('pagos.auth')).is_admin ;
         let is_admin = JSON.parse(localStorage.getItem('pagos.auth')).is_admin ?? false;
-        // setElementsAdmin(is_admin);
+        setElementsAdmin(is_admin);
         console.log(is_admin);
         let paymentList = await getPayments(userId);
         console.log(paymentList);
