@@ -61,17 +61,14 @@ formCreate.addEventListener("submit", async (event) => {
 });
 
 
-setData();
+
 
 const formUpdate = document.querySelector("#form-update");
 const nombreu = document.getElementById("nameupdate");
 const descriptionu = document.getElementById("descriptionupdate");
 const logou = document.getElementById("logoupdate");
 
-
-const id = new URLSearchParams(window.location.search).get("id")
-
-async function setData() {
+async function setData(id) {
     try{
         
         const response = await fetch(`http://127.0.0.1:8000/api/v2/service/${id}/`, {
@@ -92,6 +89,15 @@ async function setData() {
 }
 
 
+
+const serviceSelect = document.querySelector("#serviceSelect")
+serviceSelect.addEventListener("change", (event)=>{
+    event.preventDefault();
+    console.log("CAMBIO EL SELECT")
+    console.log(serviceSelect.value);
+    const serviceid = serviceSelect.value
+    setData(serviceid);
+});
 
 
 const url ="http://127.0.0.1:8000/api/v2/service/";
