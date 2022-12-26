@@ -2,8 +2,9 @@ import  {login}  from "./modules.js";
 
 const url = "http://127.0.0.1:8000/api/v2/payments/";
 const urlExpired = "http://127.0.0.1:8000/api/v2/expired/";
-
+let is_admin = false;
 //Authorization
+
 const auth = localStorage.getItem('pagos.auth') ?? "";
 if (auth !== ""){
     var token = JSON.parse(auth).accessToken ?? "";
@@ -18,7 +19,6 @@ const usernameElement = document.querySelector("#username");
 usernameElement.textContent = "";
 const expiredElement = document.querySelector("#expiredItem");
 expiredElement.textContent = "";
-
 let services = await getService()
 
 main();
@@ -26,6 +26,10 @@ main();
 async function main() {
     if ( await login()) {
         console.log("EMPEZEMOS");
+        // const a = JSON.parse(localStorage.getItem('pagos.auth')).is_admin ;
+        let is_admin = JSON.parse(localStorage.getItem('pagos.auth')).is_admin ?? false;
+        setElementsAdmin(is_admin);
+        console.log(is_admin);
         await getPayments();
         setUsername(usernameElement);
         const expiredList = await getExpireds();
@@ -74,7 +78,7 @@ function renderPayment(payment) {
                 <div class="d-flex flex-row">
                 <div class="align-self-center">
                     <i class="fas fa-pencil-alt text-info fa-3x me-4">
-                    ${ getServicebyId(payment.service).logo}
+                    <img class="h-auto d-inline-block"  style="width: 3rem;"src="${ getServicebyId(payment.service).logo}" alt="logo">
                     </i>
                 </div>
                 <div id="service">
@@ -148,18 +152,17 @@ async function getPayment(id) {
 function renderPaymentsExpired(payment,expired) {
     expiredElement.innerHTML +=`
     <div class="col-xl-12 col-md-12 mb-2">
-        <div class="card">
+        <div class="card" style="background-color: #ff7a6b;">
             <div class="card-body">
             <div class="d-flex justify-content-between p-md-1">
-                <div class="d-flex flex-row">
+                <div class="d-flex ">
                 <div class="align-self-center">
                     <i class="fas fa-pencil-alt text-info fa-3x me-4">
-                    ${ getServicebyId(payment.service).logo}
+                    <img class="h-auto d-inline-block"  style="width: 3rem;"src="${ getServicebyId(payment.service).logo}" alt="logo">
                     </i>
                 </div>
                 <div id="service">
                     <h4 >${ getServicebyId(payment.service).name}</h4>
-                    <p class="mb-0">Monthly blog posts</p>
                 </div>
                 </div>
                 <div id="paymentDate" class="align-self-center ">
@@ -177,7 +180,7 @@ function renderPaymentsExpired(payment,expired) {
             </div>
             </div>
         </div>
-        </div>
+    </div>
 
     `  
 }
@@ -209,4 +212,15 @@ async function getService() {
 function getServicebyId(id) {
     const service = services.find((s)=>s.id === id)
     return service
+};
+
+function setElementsAdmin(is_admin) {
+    let adminElement = document.querySelector(".admin");
+    if ( adminElement &&  !is_admin ) {
+    console.log(is_admin);
+    adminElement.style.display= "none";
 }
+    
+}
+
+

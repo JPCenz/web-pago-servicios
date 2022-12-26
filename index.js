@@ -9,8 +9,12 @@ async function getTasks(){
         container.innerHTML += renderTask(task)
     });
 }
-
-getTasks();
+if (!is_admin) {
+    console.log("PROHIBIDO");
+    alert("FORBIDDEN")
+    window.location.replace("./index.html")
+}
+// getTasks();
 
 
 function renderTask(task){

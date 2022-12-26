@@ -256,11 +256,12 @@
 
 })()
 
-logoutElement = document.querySelector("#logout")
-
-logoutElement.onclick = (()=>{
-  localStorage.clear()
-  
-  window.location.reload()
-  
-});
+logoutElement = document.querySelector("#logout") ?? false;
+if (logoutElement){
+  logoutElement.onclick = (()=>{
+    localStorage.clear()
+    
+    window.location.reload()
+    
+  });
+}
