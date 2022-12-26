@@ -261,7 +261,7 @@ if (logoutElement){
   logoutElement.onclick = (()=>{
     localStorage.clear()
     
-    window.location.replace("./index.html")
+    window.location.replace("./login.html")
     
   });
 }
