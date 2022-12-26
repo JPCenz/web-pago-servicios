@@ -4,6 +4,7 @@ if (auth !== ""){
     var token = JSON.parse(auth).accessToken ?? "";
     var authorization = JSON.stringify(`Bearer ${token}`);
     var user = JSON.parse(auth).email;
+    var userId = JSON.parse(auth).id;
 }
 
 
@@ -18,6 +19,8 @@ form.onsubmit = async function(event){
 
     const body = {
         service: select.value,
+        user: userId,
+        payment_date: `2022-05-05`,
     };
 
     inputs.forEach((input) => (body[input.name] = input.value));
@@ -27,14 +30,24 @@ form.onsubmit = async function(event){
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
+                "Authorization": JSON.parse(authorization),
             },
             body: JSON.stringify(body),
         });
         console.log(response);
-        Swal.fire({
-            text: "Pago añadido",
-            icon: "success",
-        });
+
+        if(response.status === 201){
+            Swal.fire({
+                text: "Pago añadido",
+                icon: "success",
+            });
+        } else {
+            Swal.fire({
+                text: `Error: ${response.status}`,
+                icon: "error",
+            });
+        }
+
     } catch (error) {
         Swal.fire({
             text: error,
@@ -50,7 +63,7 @@ form.onsubmit = async function(event){
 
 const url ="http://127.0.0.1:8000/api/v2/service/";
 const service = document.querySelector(".form-select");
-service.innerHTML = `<option selected>Seleccione un servicio</option>`
+service.innerHTML = `<option selected disabled>Seleccione un servicio</option>`
 
 async function getTasks(){
     const response = await fetch(url,{
