@@ -16,7 +16,7 @@ if (auth !== ""){
 //elementDOM
 const paymentItem = document.querySelector("#paymentItem");
 paymentItem.innerHTML = "";
-const paymentShow = document.querySelector("#firstpayments")
+const firstPayments = document.querySelector("#firstpayments")
 const usernameElement = document.querySelector("#username");
 usernameElement.textContent = "";
 const expiredElement = document.querySelector("#expiredItem");
@@ -70,7 +70,7 @@ async function main() {
 }
 
 
-async function getPayments(userId = 0) {
+async function getPayments(userId = 1) {
     let urlpayment = url
     if (userId){
         urlpayment = url + `?user=${userId}`
@@ -88,13 +88,13 @@ async function getPayments(userId = 0) {
         const paymentList = []
         const data = await response.json();
         data.results.forEach((payment,i) => {
-            let element = expiredsShow
+            let element = firstPayments
             if (i<2) {
-                element = expiredsShow
+                element = firstPayments
             }else{
-                element = expiredElement
+                element = paymentItem
             }
-            renderPayment(payment,paymentItem);
+            renderPayment(payment,element);
             paymentList.push(payment.id)
         });
         return paymentList
