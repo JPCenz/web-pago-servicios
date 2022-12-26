@@ -1,4 +1,3 @@
-// auth = localStorage.getItem('pagos.auth') ?? "";
 
 if (auth !== ""){
     var token = JSON.parse(auth).accessToken ?? "";
@@ -7,10 +6,7 @@ if (auth !== ""){
     var userId = JSON.parse(auth).id;
 }
 
-
-// const formUpdate = document.querySelector("#form-update");
-// const inputs = document.querySelectorAll("input");
-
+const serviceSelect = document.querySelector("#serviceSelect")
 const formCreate = document.querySelector("#form-create");
 const nombre = document.getElementById("namecreate");
 const description = document.getElementById("descriptioncreate");
@@ -68,6 +64,83 @@ const nombreu = document.getElementById("nameupdate");
 const descriptionu = document.getElementById("descriptionupdate");
 const logou = document.getElementById("logoupdate");
 
+
+
+
+formUpdate.addEventListener("submit", (event) =>{
+    event.preventDefault();
+    formValidation();
+});
+
+
+let formValidation = () => {
+    if(nameupdate.value === ""){
+        msg.classList.remove("d-none");
+    }
+    if(descriptionupdate.value === ""){
+        msg1.classList.remove("d-none");
+    }
+    if(logoupdate.value === ""){
+        msg2.classList.remove("d-none");
+    }
+    if(nameupdate.value !== "" && descriptionupdate.value !== "" && logoupdate.value !== ""){
+        msg.classList.add("d-none");
+        msg1.classList.add("d-none");
+        msg2.classList.add("d-none");
+    }
+
+    let serid = serviceSelect.value;
+
+    acceptData(serid);
+
+}
+
+async function acceptData (id){
+    const data ={
+        name: nombreu.value,
+        description: descriptionu.value,
+        logo: logou.value,
+    }
+
+    await fetch(`http://127.0.0.1:8000/api/v2/service/${id}/`, {
+        method: "PUT",
+        headers: {
+            "Content-type": "application/json",
+            "Authorization": JSON.parse(authorization),
+        },
+        body: JSON.stringify(data)
+    }).then((response)=>{
+        if(response.ok){
+            Swal.fire(
+                "Actualizado!",
+                "Los datos se actualizaron correctamente.",
+                "success"
+            ).then((result) =>{
+                if(result.isConfirmed){
+                    returnService();
+                }
+            })
+        }
+        else{
+            Swal.fire({
+                icon: error,
+                title: "Oops...",
+                text: "Ocurrio un error"
+            })
+        }
+    })
+}
+
+
+function returnService(){
+    window.location.replace("./administration.html")
+}
+
+
+
+
+
+
 async function setData(id) {
     try{
         
@@ -90,7 +163,7 @@ async function setData(id) {
 
 
 
-const serviceSelect = document.querySelector("#serviceSelect")
+
 serviceSelect.addEventListener("change", (event)=>{
     event.preventDefault();
     console.log("CAMBIO EL SELECT")
