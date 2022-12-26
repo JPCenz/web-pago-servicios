@@ -1,6 +1,6 @@
 import  {login}  from "./modules.js";
 
-const url = "http://127.0.0.1:8000/api/v2/payments/";
+let url = "http://127.0.0.1:8000/api/v2/payments/";
 const urlExpired = "http://127.0.0.1:8000/api/v2/expired/";
 let is_admin = false;
 //Authorization
@@ -19,7 +19,7 @@ const usernameElement = document.querySelector("#username");
 usernameElement.textContent = "";
 const expiredElement = document.querySelector("#expiredItem");
 expiredElement.textContent = "";
-let services = await getService()
+let services = await getService();
 
 main();
 
@@ -28,17 +28,18 @@ async function main() {
         console.log("EMPEZEMOS");
         // const a = JSON.parse(localStorage.getItem('pagos.auth')).is_admin ;
         let is_admin = JSON.parse(localStorage.getItem('pagos.auth')).is_admin ?? false;
-        setElementsAdmin(is_admin);
+        // setElementsAdmin(is_admin);
         console.log(is_admin);
-        await getPayments();
+        let paymentList = await getPayments();
+        console.log(paymentList);
         setUsername(usernameElement);
-        const expiredList = await getExpireds();
-
+        let expiredList = await getExpireds(paymentList);
+        console.log(expiredList);
         expiredList.forEach(async expired =>{
+            console.log("HOLA");
             let paymentExpired = await getPayment(expired.payment_user);
             renderPaymentsExpired(paymentExpired,expired);
         });
-        
         
         
         
@@ -49,20 +50,28 @@ async function main() {
 }
 
 
-async function getPayments() {
+async function getPayments(userId = 0) {
+    let urlpayment = url
+    if (userId){
+        urlpayment = url + `?user=${userId}`
+    }
+
+
     try {
-        const response = await fetch(url, {
+        const response = await fetch(urlpayment, {
             method: "GET",
             headers: {
                 "Content-type": "application/json",
                 "Authorization": JSON.parse(authorization),
             },
         });
-
+        const paymentList = []
         const data = await response.json();
         data.results.forEach(payment => {
             renderPayment(payment);
+            paymentList.push(payment.id)
         });
+        return paymentList
 
     } catch (error) {
         console.log(error);
@@ -103,10 +112,40 @@ function renderPayment(payment) {
 function setUsername(element) {
     element.textContent = `${user}`;
 };
+async function getExpiredByUser(payments) {
+    let url = urlExpired;
+    let expireds = [];
+    payments.forEach(async (payment)=>{
+        url = urlExpired +`?payment_user=${payment}`
+        try {
+            const response = await fetch(url, {
+                method: "GET",
+                headers: {
+                    "Content-type": "application/json",
+                    "Authorization": JSON.parse(authorization),
+                },
+            });
+            const data = await response.json();
+            data.results.forEach(async expired => {
+                console.log(expired);
+                expireds.push(expired) ;      
+            });
+            
+            
+        } catch (error) {
+            console.log(error);
+        }
+        
+    });
+    return expireds
+    console.log(expireds)
+    
+};
 
 async function getExpireds() {
+    let url = urlExpired;
     try {
-        const response = await fetch(urlExpired, {
+        const response = await fetch(url, {
             method: "GET",
             headers: {
                 "Content-type": "application/json",
@@ -158,7 +197,7 @@ function renderPaymentsExpired(payment,expired) {
                 <div class="d-flex ">
                 <div class="align-self-center">
                     <i class="fas fa-pencil-alt text-info fa-3x me-4">
-                    <img class="h-auto d-inline-block"  style="width: 3rem;"src="${ getServicebyId(payment.service).logo}" alt="logo">
+                    <img class="h-auto d-inline-block"  style="width: 3rem;" src="${ getServicebyId(payment.service).logo}" alt="logo">
                     </i>
                 </div>
                 <div id="service">
