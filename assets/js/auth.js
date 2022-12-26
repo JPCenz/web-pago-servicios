@@ -5,7 +5,7 @@ const usernameElement = document.querySelector("#username");
 usernameElement.textContent = "";
 //Authorization
 const auth = localStorage.getItem('pagos.auth') ?? "";
-var is_admin = JSON.parse(localStorage.getItem('pagos.auth')).is_admin
+//var is_admin = JSON.parse(localStorage.getItem('pagos.auth')).is_admin
 if (auth !== ""){
     var token = JSON.parse(auth).accessToken ?? "";
     var authorization = JSON.stringify(`Bearer ${token}`);
