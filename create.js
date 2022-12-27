@@ -7,7 +7,10 @@ if (auth !== ""){
     var userId = JSON.parse(auth).id;
 }
 
-
+var hoy = new Date();
+var dia = hoy.getDate();
+var mes = hoy.getMonth() + 1;
+var anio = hoy.getFullYear();
 
 const form = document.querySelector("form");
 const inputs = document.querySelectorAll("input");
@@ -20,7 +23,7 @@ form.onsubmit = async function(event){
     const body = {
         service: select.value,
         user: userId,
-        payment_date: `2022-05-05`,
+        payment_date: anio + '-' + mes + '-' + dia,
     };
 
     inputs.forEach((input) => (body[input.name] = input.value));
