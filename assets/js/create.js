@@ -12,14 +12,41 @@ var dia = hoy.getDate();
 var mes = hoy.getMonth() + 1;
 var anio = hoy.getFullYear();
 
-const form = document.querySelector("form");
+const form = document.querySelector("#form");
 const inputs = document.querySelectorAll("input");
 const select = document.querySelector("select");
 
+const expdate = document.getElementById("expdatee");
+const servi = document.getElementById("servii");
+const mont = document.getElementById("amount");
 
-form.onsubmit = async function(event){
+
+form.onsubmit = function(event){
     event.preventDefault();
+    formValidar();
+};
 
+
+let formValidar = () => {
+    if(expdate.value === ""){
+        msg6.classList.remove("d-none");
+    }
+    if(servi.value === "Seleccione un servicio"){
+        msg7.classList.remove("d-none");
+    }
+    if(mont.value === ""){
+        msg8.classList.remove("d-none");
+    }
+    if(expdate.value !== "" && servi.value !== "" && mont.value !== ""){
+        msg6.classList.add("d-none");
+        msg7.classList.add("d-none");
+        msg8.classList.add("d-none");
+        postData()
+    }
+}
+
+
+async function postData(){
     const body = {
         service: select.value,
         user: userId,
@@ -57,9 +84,7 @@ form.onsubmit = async function(event){
             icon: "error",
         });
     }
-
-};
-
+}
 
 
 const url ="https://api-pagos-drf.onrender.com/api/v2/service/";

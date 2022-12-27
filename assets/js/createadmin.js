@@ -17,9 +17,32 @@ if (!is_admin) {
     window.location.replace("./index.html")
 }
 
-formCreate.addEventListener("submit", async (event) => {
+formCreate.addEventListener("submit", (event) => {
     event.preventDefault();
+    formValidate();
+});
 
+
+let formValidate = () => {
+    if(namecreate.value === ""){
+        msg.classList.remove("d-none");
+    }
+    if(descriptioncreate.value === ""){
+        msg1.classList.remove("d-none");
+    }
+    if(logocreate.value === ""){
+        msg2.classList.remove("d-none");
+    }
+    if(namecreate.value !== "" && descriptioncreate.value !== "" && logocreate.value !== ""){
+        msg.classList.add("d-none");
+        msg1.classList.add("d-none");
+        msg2.classList.add("d-none");
+        confirmData();
+    }
+
+}
+
+async function confirmData(){
     const body = {
         name: nombre.value,
         description: description.value,
@@ -56,8 +79,8 @@ formCreate.addEventListener("submit", async (event) => {
             icon: "error",
         });
     }
+}
 
-});
 
 
 
@@ -78,23 +101,22 @@ formUpdate.addEventListener("submit", (event) =>{
 
 let formValidation = () => {
     if(nameupdate.value === ""){
-        msg.classList.remove("d-none");
+        msg3.classList.remove("d-none");
     }
     if(descriptionupdate.value === ""){
-        msg1.classList.remove("d-none");
+        msg4.classList.remove("d-none");
     }
     if(logoupdate.value === ""){
-        msg2.classList.remove("d-none");
+        msg5.classList.remove("d-none");
     }
     if(nameupdate.value !== "" && descriptionupdate.value !== "" && logoupdate.value !== ""){
-        msg.classList.add("d-none");
-        msg1.classList.add("d-none");
-        msg2.classList.add("d-none");
+        msg3.classList.add("d-none");
+        msg4.classList.add("d-none");
+        msg5.classList.add("d-none");
+        
+        let serid = serviceSelect.value;
+        acceptData(serid);
     }
-
-    let serid = serviceSelect.value;
-
-    acceptData(serid);
 
 }
 

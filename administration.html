@@ -70,14 +70,17 @@
             <legend><h2>Añadir un nuevo servicio</h2></legend>
             <div class="mb-3" style="margin-top: 45px;">
               <input id="namecreate" type="text" class="form-control" name="name" placeholder="Nombre">
+              <div id="msg" class="alert alert-danger d-none" role="alert">El campo Nombre no puede estar vacio</div>
             </div>
 
             <div class="mb-3">
               <input id="descriptioncreate" type="text" class="form-control" name="description" placeholder="Prefijo">
+              <div id="msg1" class="alert alert-danger d-none" role="alert">El campo Prefijo no puede estar vacio</div>
             </div>
 
             <div class="mb-3">
               <input id="logocreate" type="text" class="form-control" name="logo" placeholder="URL Logo">
+              <div id="msg2" class="alert alert-danger d-none" role="alert">El campo URL Logo no puede estar vacio</div>
             </div>
 
             <div>
@@ -103,17 +106,17 @@
 
             <div class="mb-3">
               <input id="nameupdate"type="text" name="name" class="form-control" placeholder="Nombre">
-              <div id="msg" class="alert alert-danger d-none" role="alert">El nombre no puede estar vacio</div>
+              <div id="msg3" class="alert alert-danger d-none" role="alert">El nombre no puede estar vacio</div>
             </div>
 
             <div class="mb-3">
               <input id="descriptionupdate"type="text" name="logo" class="form-control" placeholder="Prefijo">
-              <div id="msg1" class="alert alert-danger d-none" role="alert">El Prefijo no puede estar vacio</div>
+              <div id="msg4" class="alert alert-danger d-none" role="alert">El Prefijo no puede estar vacio</div>
             </div>
 
             <div class="mb-3">
               <input id="logoupdate"type="text" name="url" class="form-control" placeholder="URL Logo">
-              <div id="msg2" class="alert alert-danger d-none" role="alert">El Url-logo no puede estar vacio</div>
+              <div id="msg5" class="alert alert-danger d-none" role="alert">El Url-logo no puede estar vacio</div>
             </div>
 
             <div>
@@ -174,7 +177,7 @@
   <!-- Template Main JS File -->
   <script src="./assets/js/auth.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.6.16/dist/sweetalert2.all.min.js"></script>
-  <script src="./createadmin.js"></script>
+  <script src="./assets/js/createadmin.js"></script>
   <script src="./assets/js/main.js"></script>
 
 </body>
