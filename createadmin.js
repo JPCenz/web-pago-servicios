@@ -1,10 +1,10 @@
 
-if (auth !== ""){
-    var token = JSON.parse(auth).accessToken ?? "";
-    var authorization = JSON.stringify(`Bearer ${token}`);
-    var user = JSON.parse(auth).email;
-    var userId = JSON.parse(auth).id;
-}
+// if (auth !== ""){
+//     var token = JSON.parse(auth).accessToken ?? "";
+//     var authorization = JSON.stringify(`Bearer ${token}`);
+//     var user = JSON.parse(auth).email;
+//     var userId = JSON.parse(auth).id;
+// }
 
 const serviceSelect = document.querySelector("#serviceSelect")
 const formCreate = document.querySelector("#form-create");
@@ -12,7 +12,10 @@ const nombre = document.getElementById("namecreate");
 const description = document.getElementById("descriptioncreate");
 const logo = document.getElementById("logocreate");
 
-
+//Si no es admin redirige a home
+if (!is_admin) {
+    window.location.replace("./index.html")
+}
 
 formCreate.addEventListener("submit", async (event) => {
     event.preventDefault();

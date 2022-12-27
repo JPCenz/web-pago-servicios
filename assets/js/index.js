@@ -24,6 +24,7 @@ expiredElement.textContent = "";
 const expiredsShow= document.querySelector("#firstexpiredItem");
 const btnShowMore = document.querySelector("#btn-showmore");
 const btnShowMorePay = document.querySelector("#btn-showmorepay");
+const nopaymentsElement =document.querySelector("#no-payments");
 let services = await getService();
 
 main();
@@ -36,9 +37,11 @@ async function main() {
         setElementsAdmin(is_admin);
         console.log(is_admin);
         let paymentList = await getPayments(userId);
+        if(paymentList.length > 0){
+            nopaymentsElement.style.display = "none"
+        }
         if (paymentList.length < 3) {
             btnShowMorePay.style.display = "none"
-            
         }
         console.log(paymentList);
         
