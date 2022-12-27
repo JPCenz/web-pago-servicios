@@ -1,5 +1,5 @@
 
-const urlVerify = "http://127.0.0.1:8000/users/jwt/verify/";
+const urlVerify = "https://api-pagos-drf.onrender.com/users/jwt/verify/";
 
 //Authorization
 const auth = localStorage.getItem('pagos.auth') ?? "";

@@ -1,7 +1,7 @@
 import  {login}  from "./modules.js";
 
-let url = "http://127.0.0.1:8000/api/v2/payments/";
-const urlExpired = "http://127.0.0.1:8000/api/v2/expired/";
+let url = "https://api-pagos-drf.onrender.com/api/v2/payments/";
+const urlExpired = "https://api-pagos-drf.onrender.com/api/v2/expired/";
 let is_admin = false;
 //Authorization
 
@@ -31,11 +31,11 @@ main();
 
 async function main() {
     if ( await login()) {
-        console.log("EMPEZEMOS");
+        
         // const a = JSON.parse(localStorage.getItem('pagos.auth')).is_admin ;
         let is_admin = JSON.parse(localStorage.getItem('pagos.auth')).is_admin ?? false;
         setElementsAdmin(is_admin);
-        console.log(is_admin);
+        
         let paymentList = await getPayments(userId);
         if(paymentList.length > 0){
             nopaymentsElement.style.display = "none"
@@ -43,7 +43,6 @@ async function main() {
         if (paymentList.length < 3) {
             btnShowMorePay.style.display = "none"
         }
-        console.log(paymentList);
         
         setUsername(usernameElement);
 
@@ -53,7 +52,6 @@ async function main() {
             const a =await getExpiredByUser(paymentList[i]);
             listExpireds.push(a)
         }
-        console.log(listExpireds);
         const filtered = listExpireds.filter((expired)=>expired.length > 0)
         if (filtered.length < 3) {
             btnShowMore.style.display= "none";
@@ -65,15 +63,13 @@ async function main() {
             }else{
                 element = expiredElement
             }
-                console.log("EXPIRADO");
                 let paymentExpired = await getPayment(expired[0].payment_user);
                 renderPaymentsExpired(paymentExpired,expired[0],element);
-                console.log(i);
 
             
         });
     } else {
-        console.log("No EMPEZEMOS");
+        console.log("FORBIDDEN");
     }
 }
 
@@ -162,12 +158,10 @@ async function getExpiredByUser(payment=1) {
         let expireds = [];
         const data = await response.json();
         data.results.forEach(expired => {
-            console.log(expired);
             if (expired) {
                 expireds.push(expired ) ;   
             };
         });
-        console.log(expireds)
         return expireds
     } catch (error) {
         console.log(error);
@@ -262,7 +256,7 @@ function renderPaymentsExpired(payment,expired,element) {
 
 async function getService() {
     try {
-        const response = await fetch("http://127.0.0.1:8000/api/v2/service/", {
+        const response = await fetch("https://api-pagos-drf.onrender.com/api/v2/service/", {
             method: "GET",
             headers: {
                 "Content-type": "application/json",
@@ -285,15 +279,14 @@ async function getService() {
 };
 
 function getServicebyId(id) {
-    const service = services.find((s)=>s.id === id)
-    return service
+    const service = services.find((s)=>s.id === id);
+    return service;
 };
 
 function setElementsAdmin(is_admin) {
     let adminElement = document.querySelector(".admin");
     if ( adminElement &&  !is_admin ) {
-    console.log(is_admin);
-    adminElement.style.display= "none";
+        adminElement.style.display= "none";
 }
     
 }

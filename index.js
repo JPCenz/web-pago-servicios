@@ -1,4 +1,4 @@
-const url ="http://127.0.0.1:8000/api/v2/payments/";
+const url ="https://api-pagos-drf.onrender.com/payments/";
 
 const container = document.querySelector(".table")
 

@@ -28,7 +28,7 @@ formCreate.addEventListener("submit", async (event) => {
     console.log(body)
 
     try {
-        const response = await fetch("http://127.0.0.1:8000/api/v2/service/", {
+        const response = await fetch("https://api-pagos-drf.onrender.com/api/v2/service/", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -105,7 +105,7 @@ async function acceptData (id){
         logo: logou.value,
     }
 
-    await fetch(`http://127.0.0.1:8000/api/v2/service/${id}/`, {
+    await fetch(`https://api-pagos-drf.onrender.com/api/v2/service/${id}/`, {
         method: "PUT",
         headers: {
             "Content-type": "application/json",
@@ -147,7 +147,7 @@ function returnService(){
 async function setData(id) {
     try{
         
-        const response = await fetch(`http://127.0.0.1:8000/api/v2/service/${id}/`, {
+        const response = await fetch(`https://api-pagos-drf.onrender.com/api/v2/service/${id}/`, {
             method: "GET",
             headers: {
                 "Content-type": "application/json",
@@ -176,7 +176,7 @@ serviceSelect.addEventListener("change", (event)=>{
 });
 
 
-const url ="http://127.0.0.1:8000/api/v2/service/";
+const url ="https://api-pagos-drf.onrender.com/api/v2/service/";
 const service = document.querySelector(".form-select");
 service.innerHTML = `<option selected disabled>Seleccione un servicio</option>`
 

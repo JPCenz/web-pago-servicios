@@ -1,5 +1,5 @@
 
-const urlVerify = "http://127.0.0.1:8000/users/jwt/verify/";
+const urlVerify = "https://api-pagos-drf.onrender.com/users/jwt/verify/";
 const bodyElement = document.querySelector("body")
 const usernameElement = document.querySelector("#username");
 usernameElement.textContent = "";
@@ -20,13 +20,11 @@ async function main() {
     
 
     if ( await login()) {
-        console.log("EMPEZEMOS");
         console.log('is_admin',is_admin)
         setUsername(usernameElement);
         setElementsAdmin(is_admin);
         
     } else {
-        console.log("No EMPEZEMOS");
         window.location.replace("./login.html");
     }
 };
@@ -36,7 +34,6 @@ async function login() {
     const status = await verifyUser();
     
     if (status == 200) {
-        console.log("PUEDE PASAR");
         return true
     
     } else {
@@ -44,7 +41,6 @@ async function login() {
             text: status,
             icon: "error",
         });
-        console.log("No PUEDE PASAR");
         window.location.replace("./login.html");
         return false
     }
@@ -82,7 +78,6 @@ function setUsername(element) {
 function setElementsAdmin(is_admin) {
     let adminElement = document.querySelector(".admin");
     if ( adminElement &&  !is_admin ) {
-    console.log(is_admin);
     adminElement.style.display= "none";
 }
     

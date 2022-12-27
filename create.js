@@ -29,7 +29,7 @@ form.onsubmit = async function(event){
     inputs.forEach((input) => (body[input.name] = input.value));
 
     try {
-        const response = await fetch("http://127.0.0.1:8000/api/v2/payments/", {
+        const response = await fetch("https://api-pagos-drf.onrender.com/api/v2/payments/", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -62,7 +62,7 @@ form.onsubmit = async function(event){
 
 
 
-const url ="http://127.0.0.1:8000/api/v2/service/";
+const url ="https://api-pagos-drf.onrender.com/api/v2/service/";
 const service = document.querySelector(".form-select");
 service.innerHTML = `<option selected disabled>Seleccione un servicio</option>`
 

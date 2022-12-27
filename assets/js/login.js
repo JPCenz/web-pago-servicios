@@ -3,7 +3,7 @@ const inputs = document.querySelectorAll("input");
 const emailElement = document.querySelector("#email")
 const passwordElement = document.querySelector("#password")
 let form = document.querySelector("form");
-const url = "http://127.0.0.1:8000/users/login/"
+const url = "https://api-pagos-drf.onrender.com/users/login/"
 const locationToken = 'pagos.auth'
 
 
