@@ -23,6 +23,7 @@ const expiredElement = document.querySelector("#expiredItem");
 expiredElement.textContent = "";
 const expiredsShow= document.querySelector("#firstexpiredItem");
 const btnShowMore = document.querySelector("#btn-showmore");
+const btnShowMorePay = document.querySelector("#btn-showmorepay");
 let services = await getService();
 
 main();
@@ -35,6 +36,10 @@ async function main() {
         setElementsAdmin(is_admin);
         console.log(is_admin);
         let paymentList = await getPayments(userId);
+        if (paymentList.length < 3) {
+            btnShowMorePay.style.display = "none"
+            
+        }
         console.log(paymentList);
         
         setUsername(usernameElement);
@@ -49,7 +54,7 @@ async function main() {
         const filtered = listExpireds.filter((expired)=>expired.length > 0)
         if (filtered.length < 3) {
             btnShowMore.style.display= "none";
-        }
+        };
         filtered.forEach(async (expired,i) =>{
             let element = expiredsShow
             if (i<2) {
