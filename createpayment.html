@@ -64,25 +64,25 @@
     <!-- End Breadcrumbs -->
 
       <div class="container" style="margin-top: 150px;">
-        <form method="post" action="">
+        <form id="form" method="post" action="">
           <div>
             <legend><h2>Añadir nuevo pago</h2></legend>
 
             <div class="mb-3" style="margin-top: 90px;">
-              <input type="text" class="form-control" name="expiration_date" placeholder="Fecha de vencimiento" onfocus="(this.type='date')">
+              <input id="expdatee" type="text" class="form-control" name="expiration_date" placeholder="Fecha de vencimiento" onfocus="(this.type='date')">
+              <div id="msg6" class="alert alert-danger d-none" role="alert">La fecha de vencimiento no puede estar vacio</div>
             </div>
 
             <div class="mb-3">
-              <select name="service" class="form-select" >
-                <!-- <option selected>Servicio</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option> -->
+              <select id="servii" name="service" class="form-select" >
+
               </select>
+              <div id="msg7" class="alert alert-danger d-none" role="alert">Debe seleccionar un servicio</div>
             </div>
 
             <div class="mb-3">
-              <input type="text" class="form-control" name="amount" placeholder="Monto">
+              <input id="amount" type="text" class="form-control" name="amount" placeholder="Monto">
+              <div id="msg8" class="alert alert-danger d-none" role="alert">El monto no puede estar vacio</div>
             </div>
 
             <div>
@@ -143,7 +143,7 @@
   <!-- Template Main JS File -->
   <script src="./assets/js/auth.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.6.16/dist/sweetalert2.all.min.js"></script>
-  <script src="./create.js"></script>
+  <script src="./assets/js/create.js"></script>
   <script src="./assets/js/main.js"></script>
 
 </body>
